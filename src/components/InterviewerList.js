@@ -7,7 +7,7 @@ export default function InterviewerList(props) {
 
   const { interviewers, interviewer, setInterviewer } = props; // expect an interviewers array to be passed to <InterviewerList> component as a prop
   
-  const parsedInterviewers = interviewers.map(item => <InterviewerListItem key={item.id} name={item.name} avatar={item.avatar} selected={item.id === interviewer} setInterviewer={setInterviewer} />);
+  const parsedInterviewers = interviewers.map(item => <InterviewerListItem id={item.id} name={item.name} avatar={item.avatar} setInterviewer={setInterviewer} selected={item.id === interviewer} />);
 
   return (
     <section className="interviewers">
