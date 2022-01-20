@@ -1,28 +1,29 @@
-// import React, { useState } from "react";
-
-import React from "react";
+import React, { useState } from "react";
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 import InterviewerListItem from "components/InterviewerListItem";
 
 export default function Form(props) {
 
-  // const [text, setText] = useState('');
+  const { interviewers, onChange, onCancel } = props;
 
-  // const setName = () => {
-  //   setText(text);
-  // }
+  const [student, setStudent] = useState(props.student || "");
+  const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
-  const { student, value, interviewers, onChange, onCancel } = props;
+  const reset = () => {
+    setStudent("");
+    setInterviewer("");
+  }
 
   const parsedInterviewers = interviewers.map(item =>
     <InterviewerListItem
       key={item.id}
       name={item.name}
       avatar={item.avatar}
-      setInterviewer={() => onChange(item.id)}
-      selected={item.id === value}
-    />)
+      setInterviewer={() => setInterviewer(item.id)}
+      selected={item.id === interviewer}
+    />
+  )
 
   return (
     <main className="appointment__card appointment__card--create">
@@ -32,17 +33,17 @@ export default function Form(props) {
             className="appointment__create-input text--semi-bold"
             name="name"
             value={student}
-            // onChange={(event) => setText(event.target.value)}
+            onChange={(event) => setStudent(event.target.value)}
             type="text"
             placeholder={!student && "Enter Student Name"}
           />
         </form>
         <InterviewerList
           interviewers={interviewers}
-          value={value}
-          onChange={onChange}
+          value={interviewer}
+          onChange={setInterviewer}
         >
-          { parsedInterviewers }
+          {parsedInterviewers}
         </InterviewerList>
       </section>
       <section className="appointment__card-right">
@@ -53,4 +54,4 @@ export default function Form(props) {
       </section>
     </main>
   )
-}
+};

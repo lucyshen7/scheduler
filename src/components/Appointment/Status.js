@@ -14,4 +14,4 @@ export default function Status(props) {
       <h1 className="text--semi-bold">{message}</h1>
     </main>
   )
-}
+};
