@@ -13,6 +13,7 @@ import Show from "components/Appointment/Show";
 import Confirm from "components/Appointment/Confirm";
 import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
+import Form from "components/Appointment/Form";
 
 import "index.scss";
 
@@ -178,3 +179,20 @@ storiesOf("Appointment", module)
       onClose={action("onClose")}
     />
   ))
+  .add("Create", () => (
+    <Form 
+      interviewers={interviewers}
+      onChange={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ))
+  .add("Edit", () => (
+    <Form 
+      student={"Lucy Shen"}
+      value={1}
+      interviewers={interviewers}
+      onChange={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ))
+
