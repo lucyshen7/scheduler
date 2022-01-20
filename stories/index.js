@@ -159,6 +159,8 @@ storiesOf("Appointment", module)
     <Show
       onEdit={action("onEdit")}
       onDelete={action("onDelete")}
+      student="Lucy"
+      interviewer={interviewers[0].name}
     />
   ))
   .add("Confirm", () => (
