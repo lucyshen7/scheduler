@@ -4,6 +4,12 @@
 // }
 
 export function getAppointmentsForDay(state, day) {
-  const filteredDays = state.days.filter(item => item.name === day);
-  return filteredDays;
+  // console.log(state, state.day)
+  const filteredDays = state.days.find(item => item.name === day);
+  console.log('filteredDays', filteredDays)
+
+  if (!filteredDays || filteredDays.length === 0) {
+    return [];
+  }
+  return filteredDays.appointments.map(appointmentid => state.appointments[appointmentid])
 }
