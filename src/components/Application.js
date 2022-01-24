@@ -7,10 +7,6 @@ import Appointment from "./Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 export default function Application(props) {
-  // const [day, setDay] = useState("Monday");
-  // const [days, setDays] = useState([]);
-  // const [appointments, setAppointments] = useState({})
-
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -19,36 +15,48 @@ export default function Application(props) {
 
   let dailyAppointments = [];
 
-  // let dailyAppointments = getAppointmentsForDay(state, state.day);
-  // console.log('dailyAppointments', dailyAppointments)
-
   const setDay = day => setState({ ...state, day });
-  // const setDays = days => setState(prev => ({ ...prev, days }));
 
   useEffect(() => {
-    // axios.get('http://localhost:8001/api/days')
-    //   .then(response => {
-    //     console.log(response.data)
-    //     setDays(response.data);
-    //   });
     Promise.all([
       axios.get('http://localhost:8001/api/days'),
       axios.get('http://localhost:8001/api/appointments'),
       axios.get('http://localhost:8001/api/interviewers')
     ])
       .then(([days, appointments, interviewers]) => {
-        console.log(days, appointments, interviewers);
-
         setState(prev => ({ ...prev, days: days.data, appointments: appointments.data, interviewers: interviewers.data }));
       });
   }, []);
 
   dailyAppointments = getAppointmentsForDay(state, state.day);
   const dailyInterviewers = getInterviewersForDay(state, state.day);
+  
+  // Creating appointments function
+  function bookInterview(id, interview) { 
+    console.log(id, interview);
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+      .then(() => {
+        setState({ // call setState with new state object, does this go here?
+          ...state,
+          appointments,
+        });
+      })
+      .catch(err => console.log(err.message));
+  }
 
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
-    // console.log('interview is', interview);
     return (
       <Appointment
         key={appointment.id}
@@ -56,13 +64,10 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
       />
     );
   });
-  // console.log('schedule', schedule)
-  // console.log('dailyAppointments', dailyAppointments)
-  // console.log('state.interviewers', state.interviewers)
-
 
   return (
     <main className="layout">
@@ -87,7 +92,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        { schedule }
+        {schedule}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
