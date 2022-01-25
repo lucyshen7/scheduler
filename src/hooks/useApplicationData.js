@@ -21,7 +21,7 @@ export default function useApplicationData() {
       });
   }, []);
 
-  const updateSpots = () => {
+  const updateSpots = () => { // returns the current value
     const appointmentArr = state.days.find(element => element.name === state.day);
     const result = appointmentArr.appointments.filter(appointmentid => state.appointments[appointmentid].interview);
     return 5 - result.length;
@@ -29,6 +29,18 @@ export default function useApplicationData() {
 
   // Creating appointments function
   function bookInterview(id, interview) {
+
+    // console.log('state.appointments[id]', state.appointments[id]);
+
+    let spots; // set spots as accessible variable
+
+    if (!state.appointments[id].interview) { // need to check first if the interview is null, look in dev tools components
+      // console.log('null')
+      spots = updateSpots() - 1; // decrement if interview is null
+    } else {
+      spots = updateSpots(); // leave as is if interview already exists
+    }
+
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -39,17 +51,16 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
-    const spots = updateSpots() - 1;
     const days = state.days.map(day => { return { ...day } })
     days.find(day => day.name === state.day).spots = spots;
 
     return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then(() => {
-        setState({ // call setState with new state object
-          ...state,
+        setState(prev => ({ // call setState with new state object
+          ...prev,
           appointments,
           days
-        });
+        }));
       })
   }
 
@@ -71,11 +82,11 @@ export default function useApplicationData() {
 
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {
-        setState({
-          ...state,
+        setState(prev => ({ // call setState with new state object
+          ...prev,
           appointments,
           days
-        });
+        }));
       })
   }
 
