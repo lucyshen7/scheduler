@@ -29,13 +29,9 @@ export default function useApplicationData() {
 
   // Creating appointments function
   function bookInterview(id, interview) {
-
-    // console.log('state.appointments[id]', state.appointments[id]);
-
     let spots; // set spots as accessible variable
 
     if (!state.appointments[id].interview) { // need to check first if the interview is null, look in dev tools components
-      // console.log('null')
       spots = updateSpots() - 1; // decrement if interview is null
     } else {
       spots = updateSpots(); // leave as is if interview already exists
