@@ -52,7 +52,7 @@ export default function Application(props) {
           appointments,
         });
       })
-      .catch(err => console.log(err.message));
+      // .catch(err => err);
   }
 
   // Deleting appointments function
@@ -74,7 +74,7 @@ export default function Application(props) {
         appointments,
       });
     })
-    .catch(err => console.log(err.message));
+    // .catch(err => err);
   }
 
   const schedule = dailyAppointments.map((appointment) => {

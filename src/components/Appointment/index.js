@@ -9,6 +9,7 @@ import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 export default function Appointment(props) {
   // when props.interview contains a value, pass useVisualMode the SHOW mode
@@ -19,6 +20,8 @@ export default function Appointment(props) {
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
   const CREATE = "CREATE";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   const { id, time, interview, interviewers, bookInterview, cancelInterview } = props;
 
@@ -33,17 +36,19 @@ export default function Appointment(props) {
     };
     transition(SAVING); // show the SAVING indicator before calling props.bookInterview
     bookInterview(id, interview) // returns axios promise
-      .then(() => transition(SHOW));
+      .then(() => transition(SHOW))
+      .catch(err => transition(ERROR_SAVE, true)); // handles error from save
   }
 
   function confirm() {
     transition(CONFIRM);
   }
 
-  function cancel(interview) {
-    transition(DELETING);
-    cancelInterview(id, interview)
-      .then(() => transition(EMPTY));
+  function cancel() {
+    transition(DELETING, true);
+    cancelInterview(id)
+      .then(() => transition(EMPTY))
+      .catch(err => transition(ERROR_DELETE, true)); // handles error from delete
   }
 
   function edit() {
@@ -53,6 +58,8 @@ export default function Appointment(props) {
   return (
     <article className="appointment">
       <Header time={time} />
+      {mode === ERROR_DELETE && <Error message="Could not cancel appointment." onClose={back}/>}
+      {mode === ERROR_SAVE && <Error message="Could not save appointment." onClose={back}/>}
       {mode === SAVING && <Status message="Saving" />}
       {mode === DELETING && <Status message="Deleting" />}
       {mode === CONFIRM && (
