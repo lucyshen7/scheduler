@@ -4,11 +4,11 @@
 
 Interview Scheduler is a single-page application built using React (front-end) and Express (back-end). 
 
-✏️ The application allows a student to book an appointment with an interviewer between noon and 5 pm, Monday to Friday. 
+✨ The application allows a student to book an appointment with an interviewer between noon and 5 pm, Monday to Friday. 
 
-✏️ Data is persisted by the API server using a PostgreSQL database.
+✨ Data is persisted by the API server using a PostgreSQL database.
 
-✏️ Jest, Storybook and Cypress tests were used throughout the development of the project.
+✨ Jest, Storybook and Cypress tests were used throughout the development of the project.
 
 # Final Product
 
