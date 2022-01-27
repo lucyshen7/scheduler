@@ -164,32 +164,32 @@ storiesOf("Appointment", module)
     />
   ))
   .add("Confirm", () => (
-    <Confirm 
+    <Confirm
       onCancel={action("onCancel")}
       onConfirm={action("onConfirm")}
       message="Delete the appointment?"
     />
   ))
   .add("Status", () => (
-    <Status 
+    <Status
       message="Deleting"
     />
   ))
   .add("Error", () => (
-    <Error 
+    <Error
       message="Error"
       onClose={action("onClose")}
     />
   ))
   .add("Create", () => (
-    <Form 
+    <Form
       interviewers={interviewers}
       onSave={action("onSave")}
       onCancel={action("onCancel")}
     />
   ))
   .add("Edit", () => (
-    <Form 
+    <Form
       student={"Lucy Shen"}
       interviewer={1}
       interviewers={interviewers}
@@ -199,9 +199,9 @@ storiesOf("Appointment", module)
   ))
   .add("Appointment Empty", () => (
     <Fragment>
-    <Appointment id={1} time="4pm" />
-    <Appointment time="5pm" />
-  </Fragment>
+      <Appointment id={1} time="4pm" />
+      <Appointment time="5pm" />
+    </Fragment>
   ))
   .add("Appointment Booked", () => (
     <Fragment>

@@ -1,18 +1,17 @@
 import React from "react";
 import "./styles.scss";
 
+import useVisualMode from "hooks/useVisualMode";
+
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
-
-import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
 import Error from "./Error";
 
 export default function Appointment(props) {
-  // when props.interview contains a value, pass useVisualMode the SHOW mode
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const SAVING = "SAVING";
@@ -25,7 +24,7 @@ export default function Appointment(props) {
 
   const { id, time, interview, interviewers, bookInterview, cancelInterview } = props;
 
-  const { mode, transition, back } = useVisualMode(
+  const { mode, transition, back } = useVisualMode( // when props.interview contains a value, pass useVisualMode the SHOW mode
     interview ? SHOW : EMPTY
   );
 
@@ -58,8 +57,8 @@ export default function Appointment(props) {
   return (
     <article className="appointment">
       <Header time={time} />
-      {mode === ERROR_DELETE && <Error message="Could not cancel appointment." onClose={back}/>}
-      {mode === ERROR_SAVE && <Error message="Could not save appointment." onClose={back}/>}
+      {mode === ERROR_DELETE && <Error message="Could not cancel appointment." onClose={back} />}
+      {mode === ERROR_SAVE && <Error message="Could not save appointment." onClose={back} />}
       {mode === SAVING && <Status message="Saving" />}
       {mode === DELETING && <Status message="Deleting" />}
       {mode === CONFIRM && (

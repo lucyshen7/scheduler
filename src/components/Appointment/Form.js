@@ -5,7 +5,7 @@ import InterviewerListItem from "components/InterviewerListItem";
 
 export default function Form(props) {
 
-  const { id, interviewers, onSave, onCancel } = props;
+  const { interviewers, onSave, onCancel } = props;
 
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
@@ -21,7 +21,7 @@ export default function Form(props) {
     onCancel();
   }
 
-  function validate () { // create a function called validate in the body of the Form component
+  function validate() { // validates input before saving in the Form component
     if (student === "") {
       setError("Student name cannot be blank");
       return;

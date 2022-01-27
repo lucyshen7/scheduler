@@ -6,54 +6,44 @@ export default function useApplicationData() {
     day: "Monday",
     days: [],
     appointments: {}
-  })
+  });
 
   const setDay = day => setState({ ...state, day });
 
   useEffect(() => {
     Promise.all([
-      axios.get('http://localhost:8001/api/days'),
-      axios.get('http://localhost:8001/api/appointments'),
-      axios.get('http://localhost:8001/api/interviewers')
+      axios.get('/api/days'),
+      axios.get('/api/appointments'),
+      axios.get('/api/interviewers')
     ])
       .then(([days, appointments, interviewers]) => {
         setState(prev => ({ ...prev, days: days.data, appointments: appointments.data, interviewers: interviewers.data }));
       });
   }, []);
 
-  const updateSpots = () => { // returns the current value
-    const appointmentArr = state.days.find(element => element.name === state.day);
-    const spotsArr = appointmentArr.appointments.filter(appointmentid => !state.appointments[appointmentid].interview);
-    return spotsArr.length;
+  const getSpotsForDay = (day, appointments) => {
+    let spots = 0;
+    // iterate the day's appointment id's
+    for (const id of day.appointments) {
+      const appointment = appointments[id];
+      if (!appointment.interview) {
+        spots++;
+      };
+    };
+    return spots;
   }
 
-  /* 
-  
-  const updateSpots = function (state, appointments, id) {
-    // get the day Object
-
+  const updateSpots = (state, appointments, id) => {
+    // get the day object
     const dayObj = state.days.find(day => day.name === state.day);
+    const spots = getSpotsForDay(dayObj, appointments);
 
-    // iterate the day's appointment ids
-
-
-    // count how many have null interviewer
-    // = spots
-
-    // return [state.days];
+    const day = {...dayObj, spots};
+    return state.days.map(d => d.name === state.day ? day : d);
   }
-
-  */
 
   // Creating appointments function
   function bookInterview(id, interview) {
-    let spots; // set spots as accessible variable
-
-    if (!state.appointments[id].interview) { // need to check first if the interview is null, look in dev tools components
-      spots = updateSpots() - 1; // decrement if interview is null
-    } else {
-      spots = updateSpots(); // leave as is if interview already exists
-    }
 
     const appointment = {
       ...state.appointments[id],
@@ -65,15 +55,14 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
-    const days = state.days.map(day => { return { ...day } })
-    days.find(day => day.name === state.day).spots = spots;
+    const newDays = updateSpots(state, appointments, id);
 
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+    return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => {
         setState(prev => ({ // call setState with new state object
           ...prev,
           appointments,
-          days
+          days: newDays
         }));
       })
   }
@@ -90,16 +79,14 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
-    const spots = updateSpots() + 1;
-    const days = state.days.map(day => { return { ...day } })
-    days.find(day => day.name === state.day).spots = spots;
+    const newDays = updateSpots(state, appointments, id);
 
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+    return axios.delete(`/api/appointments/${id}`)
       .then(() => {
         setState(prev => ({ // call setState with new state object
           ...prev,
           appointments,
-          days
+          days: newDays
         }));
       })
   }
