@@ -23,9 +23,27 @@ export default function useApplicationData() {
 
   const updateSpots = () => { // returns the current value
     const appointmentArr = state.days.find(element => element.name === state.day);
-    const result = appointmentArr.appointments.filter(appointmentid => state.appointments[appointmentid].interview);
-    return 5 - result.length;
+    const spotsArr = appointmentArr.appointments.filter(appointmentid => !state.appointments[appointmentid].interview);
+    return spotsArr.length;
   }
+
+  /* 
+  
+  const updateSpots = function (state, appointments, id) {
+    // get the day Object
+
+    const dayObj = state.days.find(day => day.name === state.day);
+
+    // iterate the day's appointment ids
+
+
+    // count how many have null interviewer
+    // = spots
+
+    // return [state.days];
+  }
+
+  */
 
   // Creating appointments function
   function bookInterview(id, interview) {
