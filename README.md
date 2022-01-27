@@ -1,15 +1,21 @@
 # Interview Scheduler
 
-## Welcome to my fifth project, Interview Scheduler! 📚
+## Welcome to my fifth project, Interview Scheduler! 🤓
 
-Interview Scheduler is a single-page application built using React (front-end) and Express (back-end). This application allows a student to book an interview with a mentor between Monday and Friday.
+Interview Scheduler is a single-page application built using React (front-end) and Express (back-end). 
 
-Data is persisted by the API server using a PostgreSQL database.
+* This application allows a student to book an appointment with an interviewer between noon and 5 pm, Monday to Friday. 
 
-Jest, Storybook and Cypress tests were used throughout the development of the project.
+* Data is persisted by the API server using a PostgreSQL database.
+
+* Jest, Storybook and Cypress tests were used throughout the development of the project.
 
 # Final Product
 
+!["Appointments-All"](https://github.com/lucyshen7/scheduler/blob/master/docs/appointments-all.png)
+!["Appointment-Form"](https://github.com/lucyshen7/scheduler/blob/master/docs/appointment-form.png)
+!["Appointment-Saved"](https://github.com/lucyshen7/scheduler/blob/master/docs/appointment-saved.png)
+!["Appointment-Delete"](https://github.com/lucyshen7/scheduler/blob/master/docs/appointment-delete.png)
 
 # Getting Started
 ## Setup
