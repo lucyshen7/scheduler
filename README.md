@@ -12,10 +12,10 @@ Interview Scheduler is a single-page application built using React (front-end) a
 
 # Final Product
 
-!["Appointments-All"](https://github.com/lucyshen7/scheduler/blob/master/docs/appointments-all.png)
-!["Appointment-Form"](https://github.com/lucyshen7/scheduler/blob/master/docs/appointment-form.png)
-!["Appointment-Saved"](https://github.com/lucyshen7/scheduler/blob/master/docs/appointment-saved.png)
-!["Appointment-Delete"](https://github.com/lucyshen7/scheduler/blob/master/docs/appointment-delete.png)
+!["Appointments-All"](/docs/appointments-all.png)
+!["Appointment-Form"](/docs/appointment-form.png)
+!["Appointment-Saved"](/docs/appointment-saved.png)
+!["Appointment-Delete"](/docs/appointment-delete.png)
 
 # Getting Started
 ## Setup
@@ -27,6 +27,12 @@ Install dependencies with `npm install`.
 ```sh
 npm start
 ```
+
+## Installing and Running the Scheduler API Server
+
+Fork and clone the Scheduler API server and follow the README.md instructions to configure and run the API server.
+
+[Scheduler API](https://github.com/lighthouse-labs/scheduler-api)
 
 ## Running Jest Test Framework
 

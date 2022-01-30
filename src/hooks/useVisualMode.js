@@ -7,26 +7,24 @@ export default function useVisualMode(initial) {
   const transition = function (newMode, replace = false) {
     setMode(newMode);
 
-    if (replace) { // transition with replace
-      const history2 = [...history.slice(0, history.length - 1)]; // remove last item
-      setHistory([...history2, newMode]); // add newMode to history array
-      
-    } else {
-      const history2 = [...history, newMode];
-      setHistory(history2);
+    if (replace) {
+      setHistory(prev => ([...prev.slice(0, prev.length - 1), newMode])); // replace last item in history array with newMode
+    } else {      
+      setHistory(prev => ([...prev, newMode]));
     }
+
   };
 
   const back = function () {
 
-    if (history.length > 1) { // back limit
-      const history2 = [...history.slice(0, history.length - 1)];
-      const lastItem = history2[history2.length - 1];
+    if (history.length > 1) {
+      setMode(history[history.length - 2]); // set mode to previous item in history array
 
-      setHistory(history2);
-      setMode(lastItem);
+      setHistory(prev => ([...prev.slice(0, prev.length - 1)])); // remove last item in history array
+    } else {
+      return;
     }
-  }
+  };
 
   return { mode, transition, back };
 };
